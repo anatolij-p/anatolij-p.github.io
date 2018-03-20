@@ -78,8 +78,6 @@ a:focus {
   background: radial-gradient(ellipse at center, #fa3380 0%, #86aecc 100%);
 }
 
-.fab { font-family: 'FontAwesome'; }
-
 header {
   display: table;
   position: relative;
@@ -126,7 +124,7 @@ header .vert-text .scroll-down {
   bottom: 12%;
   left: 50%;
   color: #fff;
-  opacity: 0.5;
+  opacity: 0.3;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   -webkit-transition: opacity 0.5s;
@@ -153,12 +151,12 @@ header .vert-text .scroll-down:hover {
 
 header .vert-text .scroll-down::before {
   position: absolute;
-  top: -6px;
-  left: -9px;
+  top: 0px;
+  left: 0px;
   z-index: -1;
   content: '';
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
   border-radius: 100%;
   opacity: 0;
@@ -166,9 +164,6 @@ header .vert-text .scroll-down::before {
   animation: sdb 3s infinite;
   box-sizing: border-box;
 }
-
-.fa-linkedin { font-size: 30px; }
-
 
 hr.style17 {
   border-top: 1px solid pink;
@@ -229,6 +224,13 @@ img {
   z-index: 100;
   /* border-radius: 50%; */
   width: 150px;
+  height: auto;
+}
+
+.linkedin-img {
+  z-index: 100;
+  /* border-radius: 50%; */
+  width: 35px;
   height: auto;
 }
 
