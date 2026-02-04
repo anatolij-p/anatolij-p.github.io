@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+@import url("https://fonts.googleapis.com/css?family=Share+Tech+Mono");
 
 @-webkit-keyframes sdb {
   0% {
@@ -33,14 +33,13 @@
 }
 
 body {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: "Share Tech Mono", monospace;
 }
 
 #main {
   width: 100%;
   height: 47%;
 }
-
 
 h1.major,
 h2.major,
@@ -54,7 +53,7 @@ h6.major {
 }
 
 a {
-  color: #33A9B7;
+  color: #33a9b7;
 }
 
 #typer-size {
@@ -63,18 +62,45 @@ a {
 
 a:hover,
 a:focus {
-  color: #00E4FF;
+  color: #00e4ff;
   text-decoration: none;
 }
 
-
 .change-color {
   background: #fa3380;
-  background: -moz-radial-gradient(center, ellipse cover, #fa3380 0%, #86aecc 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #fa3380), color-stop(100%, #86aecc));
-  background: -webkit-radial-gradient(center, ellipse cover, #fa3380 0%, #86aecc 100%);
-  background: -o-radial-gradient(center, ellipse cover, #fa3380 0%, #86aecc 100%);
-  background: -ms-radial-gradient(center, ellipse cover, #fa3380 0%, #86aecc 100%);
+  background: -moz-radial-gradient(
+    center,
+    ellipse cover,
+    #fa3380 0%,
+    #86aecc 100%
+  );
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(0%, #fa3380),
+    color-stop(100%, #86aecc)
+  );
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    #fa3380 0%,
+    #86aecc 100%
+  );
+  background: -o-radial-gradient(
+    center,
+    ellipse cover,
+    #fa3380 0%,
+    #86aecc 100%
+  );
+  background: -ms-radial-gradient(
+    center,
+    ellipse cover,
+    #fa3380 0%,
+    #86aecc 100%
+  );
   background: radial-gradient(ellipse at center, #fa3380 0%, #86aecc 100%);
 }
 
@@ -86,11 +112,39 @@ header {
   overflow: hidden;
 
   background: #0ed669;
-  background: -moz-radial-gradient(center, ellipse cover, #0ed669 0%, #86aecc 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #fa3380), color-stop(100%, #86aecc));
-  background: -webkit-radial-gradient(center, ellipse cover, #0ed669 0%, #86aecc 100%);
-  background: -o-radial-gradient(center, ellipse cover, #0ed669 0%, #86aecc 100%);
-  background: -ms-radial-gradient(center, ellipse cover, #0ed669 0%, #86aecc 100%);
+  background: -moz-radial-gradient(
+    center,
+    ellipse cover,
+    #0ed669 0%,
+    #86aecc 100%
+  );
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(0%, #fa3380),
+    color-stop(100%, #86aecc)
+  );
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    #0ed669 0%,
+    #86aecc 100%
+  );
+  background: -o-radial-gradient(
+    center,
+    ellipse cover,
+    #0ed669 0%,
+    #86aecc 100%
+  );
+  background: -ms-radial-gradient(
+    center,
+    ellipse cover,
+    #0ed669 0%,
+    #86aecc 100%
+  );
   background: radial-gradient(ellipse at center, #0ed669 0%, #86aecc 100%);
 
   color: white;
@@ -154,7 +208,7 @@ header .vert-text .scroll-down::before {
   top: 0px;
   left: 0px;
   z-index: -1;
-  content: '';
+  content: "";
   width: 34px;
   height: 34px;
   box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
@@ -180,7 +234,7 @@ hr.style17:after {
 }
 
 hr.style17:after {
-  content: '§';
+  content: "§";
   display: inline-block;
   position: relative;
   top: -10px;
@@ -192,7 +246,6 @@ hr.style17:after {
   -moz-transform: rotate(60deg);
   transform: rotate(60deg);
 }
-
 
 button {
   border-radius: 100px;
@@ -234,12 +287,12 @@ img {
   height: auto;
 }
 
-
 /***************/
 /*   LOADING   */
 /***************/
 
-#content, #overlay {
+#content,
+#overlay {
   position: absolute;
   display: inline-block;
   width: 100%;
@@ -247,7 +300,8 @@ img {
   padding: 0;
 }
 
-#content { }
+#content {
+}
 
 #overlay {
   pointer-events: none;
@@ -258,7 +312,7 @@ img {
   animation: black-part 4s;
 }
 #overlay:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   top: 50%;
@@ -352,7 +406,8 @@ img {
     height: 100%;
   }
 }
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   padding: 0;

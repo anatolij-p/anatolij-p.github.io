@@ -1,14 +1,14 @@
-(function() {
+(function () {
   'use strict';
 
-  window.onload = function() {
+  window.onload = function () {
 
     // TYPING EFFECT
     var root = document.documentElement;
     root.className += ' loaded';
 
-    Typed.new('#typed', {
-      stringsElement: document.getElementById('typed-strings'),
+    new Typed('#typed', {
+      stringsElement: '#typed-strings',
       loop: true,
       typeSpeed: 7,
       backSpeed: 2,
@@ -19,7 +19,7 @@
 
 
   // DELAY LOAD
-  setTimeout(function() {
+  setTimeout(function () {
 
     // LOADER
     $('#main').fadeIn(1500);
@@ -137,7 +137,7 @@
     });
 
     // ANIMATION FOR LINK
-    $('.nav-link').on('mouseenter mouseleave', function(e) {
+    $('.nav-link').on('mouseenter mouseleave', function (e) {
       e.preventDefault();
 
       $('header').toggleClass('change-color');
