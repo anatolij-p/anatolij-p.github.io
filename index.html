@@ -2,94 +2,142 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>1334 TECH</title>
-
-    <meta name="Description" content="Homepage of Professional Web Developer" />
-    <meta
-      name="Keywords"
-      content="developer magento web-developer specialist integration frontend backend 1334 tech java python golang"
-    />
-    <meta name="Author" content="Anatolij Prihosko" />
-
-    <meta property="og:title" content="1334 TECH" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1334 TECH — Anatolij Prihosko</title>
+    <meta name="description" content="Anatolij Prihosko — senior web developer focused on eCommerce, integrations, PIM, and production web systems." />
+    <meta name="keywords" content="senior web developer,eCommerce,integrations,PIM,frontend,backend,APIs,1334 TECH" />
+    <meta name="author" content="Anatolij Prihosko" />
+    <meta property="og:title" content="1334 TECH — Anatolij Prihosko" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://1334.tech" />
     <meta property="og:image" content="https://1334.tech/img/thumbnail.jpg" />
-    <meta
-      property="og:description"
-      content="1334 TECH - Anatolij Prihosko - Software Engineer"
-    />
-
-    <link
-      rel="stylesheet prefetch"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-    <link
-      rel="stylesheet prefetch"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    />
-
+    <meta property="og:description" content="Senior web developer focused on eCommerce, integrations, PIM, and production web systems." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.min.css" />
   </head>
-
   <body>
-    <!-- LOADER -->
-    <div id="content"></div>
-    <div id="overlay"></div>
+    <canvas id="nebula-canvas" aria-hidden="true"></canvas>
+    <div class="nebula-overlay" aria-hidden="true">
+      <div class="nebula-cloud nebula-cloud-cyan"></div>
+      <div class="nebula-cloud nebula-cloud-blue"></div>
+      <div class="nebula-cloud nebula-cloud-gold"></div>
+      <svg class="nebula-filaments" viewBox="0 0 1440 1024" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="nebulaStrokeA" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.08" />
+            <stop offset="50%" stop-color="#60a5fa" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#facc15" stop-opacity="0.12" />
+          </linearGradient>
+          <linearGradient id="nebulaStrokeB" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#facc15" stop-opacity="0.08" />
+            <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.48" />
+            <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.1" />
+          </linearGradient>
+          <filter id="nebulaGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 8 -2" />
+          </filter>
+        </defs>
+        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="nebula-curve" d="M120 280 C 240 160, 340 150, 450 258 S 660 386, 770 260 S 1000 110, 1140 235 S 1320 440, 1380 312" stroke="url(#nebulaStrokeA)" stroke-width="3.5" filter="url(#nebulaGlow)" />
+          <path class="nebula-curve" d="M80 620 C 210 520, 310 560, 430 658 S 660 846, 790 680 S 1020 420, 1170 566 S 1320 710, 1400 612" stroke="url(#nebulaStrokeB)" stroke-width="2.8" stroke-dasharray="12 18" />
+          <path class="nebula-curve" d="M240 120 C 360 220, 420 340, 520 420 S 730 540, 860 448 S 1090 240, 1220 330 S 1360 520, 1420 468" stroke="url(#nebulaStrokeA)" stroke-width="2.2" stroke-dasharray="6 14" />
+          <g class="nebula-nodes">
+            <circle cx="448" cy="258" r="8" fill="#22d3ee" opacity="0.75" filter="url(#nebulaGlow)" />
+            <circle cx="770" cy="260" r="7" fill="#60a5fa" opacity="0.7" filter="url(#nebulaGlow)" />
+            <circle cx="430" cy="658" r="6" fill="#facc15" opacity="0.62" filter="url(#nebulaGlow)" />
+            <circle cx="790" cy="680" r="7" fill="#22d3ee" opacity="0.66" filter="url(#nebulaGlow)" />
+            <circle cx="1140" cy="235" r="5" fill="#facc15" opacity="0.58" filter="url(#nebulaGlow)" />
+            <circle cx="1220" cy="330" r="4" fill="#60a5fa" opacity="0.55" filter="url(#nebulaGlow)" />
+          </g>
+          <g class="nebula-server nebula-server-a" transform="translate(170 170)">
+            <rect x="0" y="0" width="172" height="78" rx="14" fill="#08111f" fill-opacity="0.24" stroke="#22d3ee" stroke-opacity="0.18" />
+            <rect x="16" y="18" width="140" height="12" rx="6" fill="#22d3ee" fill-opacity="0.18" />
+            <text class="nebula-binary" x="16" y="57" font-family="Share Tech Mono, monospace" font-size="16">0101 0011 0010</text>
+          </g>
+          <g class="nebula-server nebula-server-b" transform="translate(980 180)">
+            <rect x="0" y="0" width="180" height="84" rx="14" fill="#08111f" fill-opacity="0.22" stroke="#60a5fa" stroke-opacity="0.2" />
+            <rect x="16" y="17" width="146" height="12" rx="6" fill="#60a5fa" fill-opacity="0.16" />
+            <text class="nebula-binary" x="16" y="60" font-family="Share Tech Mono, monospace" font-size="16">0011 0110 1010</text>
+          </g>
+          <g class="nebula-server nebula-server-c" transform="translate(250 690)">
+            <rect x="0" y="0" width="194" height="86" rx="14" fill="#08111f" fill-opacity="0.2" stroke="#facc15" stroke-opacity="0.18" />
+            <rect x="16" y="18" width="162" height="12" rx="6" fill="#facc15" fill-opacity="0.14" />
+            <text class="nebula-binary" x="16" y="61" font-family="Share Tech Mono, monospace" font-size="16">0100 1100 0101</text>
+          </g>
+          <g class="nebula-server nebula-server-d" transform="translate(1090 720)">
+            <rect x="0" y="0" width="168" height="76" rx="14" fill="#08111f" fill-opacity="0.22" stroke="#22d3ee" stroke-opacity="0.16" />
+            <rect x="16" y="16" width="136" height="11" rx="6" fill="#22d3ee" fill-opacity="0.15" />
+            <text class="nebula-binary" x="16" y="56" font-family="Share Tech Mono, monospace" font-size="15">0010 0101 1110</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="site-shell">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="brand" href="#profile" aria-label="1334 TECH home">
+          <img src="img/1334_logo.png" alt="" width="26" height="26" />
+          <span>1334 TECH</span>
+        </a>
+        <div class="nav-links">
+          <a href="#profile"><span aria-hidden="true">◉</span> Profile</a>
+          <a href="#expertise"><span aria-hidden="true">⌁</span> CV Scenes</a>
+          <a class="linkedin-icon" href="https://www.linkedin.com/in/anatolij-prihosko/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">in</a>
+        </div>
+      </nav>
 
-    <!-- CONTENT -->
-    <div id="main" style="display: none">
-      <header id="header">
-        <div class="vert-text">
-          <!-- CANVAS -->
-          <div id="particles"></div>
-
-          <!-- LOGO -->
-          <div class="p-img">
-            <img src="img/1334_logo_white.png" />
+      <main>
+        <section id="profile" class="hero-stage" aria-label="Interactive CV profile">
+          <div class="stage-copy" aria-live="polite">
+            <p class="eyebrow" id="scene-eyebrow">⚡ Scene 01 / Profile loaded from cv.md</p>
+            <h1 id="scene-title">Reliable web systems for connected commerce.</h1>
+            <p id="scene-summary" class="scene-summary">I build and connect eCommerce platforms, APIs, PIM workflows, and full-stack systems for international clients with a practical focus on production delivery.</p>
+            <div class="expertise-grid" id="expertise-grid" aria-label="Expertise sections">
+              <button class="expertise-card active" type="button" data-section="ecommerce" aria-pressed="true"><span>🛒</span><strong>eCommerce</strong><small>Commerce systems and delivery</small></button>
+              <button class="expertise-card" type="button" data-section="integrations" aria-pressed="false"><span>🔌</span><strong>Integrations</strong><small>APIs and automation</small></button>
+              <button class="expertise-card" type="button" data-section="pim" aria-pressed="false"><span>📦</span><strong>PIM</strong><small>Product data workflows</small></button>
+              <button class="expertise-card" type="button" data-section="timeline" aria-pressed="false"><span>▤</span><strong>Timeline</strong><small>Career chapters</small></button>
+            </div>
           </div>
 
-          <!-- TYPING -->
-          <h1 id="typer-size">
-            <span id="typed"></span>
-            <div id="typed-strings">
-              <p><span class="highlight">Welcome!</span></p>
-              <p>I’m Anatolij Prihosko</p>
-              <p>Experienced Web Developer</p>
-              <p>Focused on eCommerce</p>
-              <p>Integration Specialist</p>
-              <p>PIM Specialist</p>
-              <p>
-                Proficient in multiple programming languages, platforms, and
-                tools, with a strong track record of working with international
-                clients.
-              </p>
-              <p>Delivered dozens of projects.</p>
-              <p>Connect on LinkedIn</p>
+          <aside class="terminal-panel" id="terminal-panel" aria-label="Animated CV terminal">
+            <div class="terminal-titlebar">
+              <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+              <span id="terminal-title">cv.md :: profile</span>
             </div>
-          </h1>
+            <div class="terminal-body" id="terminal-body" aria-live="polite"></div>
+          </aside>
+        </section>
 
-          <!-- COMPANY NAME -->
-          <h3><strong>1334 TECH</strong></h3>
+        <section id="expertise" class="scroll-scene" data-scene="expertise"><span>01</span><h2>Expertise</h2></section>
+        <section id="projects" class="scroll-scene" data-scene="projects"><span>02</span><h2>Selected work</h2></section>
+        <section id="timeline" class="scroll-scene" data-scene="timeline"><span>03</span><h2>Timeline</h2></section>
+        <section id="contact" class="scroll-scene" data-scene="contact"><span>04</span><h2>Contact</h2></section>
+      </main>
 
-          <!-- SOCIAL -->
-          <a
-            href="https://www.linkedin.com/in/anatolij-prihosko/"
-            class="scroll-down nav-link"
-            target="_blank"
-          >
-            <img class="linkedin-img" src="img/linkedin-w.png" alt="linkedin" />
-          </a>
+      <footer class="binary-footer">
+        <div class="binary-layer binary-cyan" aria-hidden="true"></div>
+        <div class="binary-layer binary-blue" aria-hidden="true"></div>
+        <div class="binary-layer binary-gold" aria-hidden="true"></div>
+        <div class="footer-content">
+          <div><strong>1334 TECH</strong><span>Senior web development · connected systems · production delivery</span></div>
+          <div class="footer-actions"><span class="prompt">$</span><span class="cursor"></span><a class="linkedin-icon" href="https://www.linkedin.com/in/anatolij-prihosko/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">in</a></div>
         </div>
-      </header>
+      </footer>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
-
-    <script src="js/index.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script type="module" src="js/index.min.js"></script>
   </body>
 </html>

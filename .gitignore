@@ -1,0 +1,5 @@
+.superpowers/
+.worktrees/
+.deploy-worktree/
+__pycache__/
+.DS_Store
