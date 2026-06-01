@@ -1,0 +1,60 @@
+<h2>Pick the premium cyber direction</h2>
+<p class="subtitle">Goal: personal-first, premium minimal bio, complex-systems positioning, cinematic scramble-text core experience.</p>
+
+<style>
+  .cyber-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+  .cyber-card{border:1px solid rgba(255,255,255,.14);border-radius:18px;overflow:hidden;background:#080b13;cursor:pointer;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .cyber-card.selected{outline:3px solid #22d3ee;box-shadow:0 0 0 1px rgba(34,211,238,.55),0 24px 80px rgba(34,211,238,.18)}
+  .preview{height:260px;padding:18px;position:relative;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:white}
+  .chip{font-family:monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.85}
+  .headline{font-weight:900;letter-spacing:-.06em;line-height:.85;margin:34px 0 10px;font-size:38px}
+  .copy{font-size:12px;line-height:1.55;max-width:88%;opacity:.75}
+  .cta{position:absolute;left:18px;bottom:18px;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:8px 12px;font-size:11px;background:rgba(255,255,255,.06)}
+  .meta{position:absolute;right:18px;bottom:18px;font-family:monospace;font-size:10px;opacity:.65}
+  .gridline{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(to bottom,#000,transparent)}
+  .body{padding:16px 18px 18px;background:rgba(255,255,255,.03)}
+  .body h3{margin:0 0 8px;font-size:18px}.body p{margin:0;font-size:13px;line-height:1.45;opacity:.8}.body small{display:block;margin-top:10px;color:#9ca3af}
+  .a .preview{background:radial-gradient(circle at 20% 20%,rgba(34,211,238,.45),transparent 32%),radial-gradient(circle at 80% 12%,rgba(168,85,247,.34),transparent 35%),linear-gradient(145deg,#030712,#0f172a 55%,#111827)}
+  .a .headline span{color:#22d3ee;text-shadow:0 0 24px rgba(34,211,238,.75)}
+  .a .scan{position:absolute;left:-20%;right:-20%;top:45%;height:2px;background:#22d3ee;box-shadow:0 0 24px #22d3ee;transform:rotate(-7deg)}
+  .b .preview{background:radial-gradient(circle at 82% 25%,rgba(244,63,94,.44),transparent 32%),radial-gradient(circle at 25% 80%,rgba(250,204,21,.26),transparent 38%),linear-gradient(150deg,#09090b,#18181b)}
+  .b .headline span{color:#fb7185;text-shadow:0 0 22px rgba(251,113,133,.72)}
+  .b .panel{position:absolute;right:16px;top:48px;width:80px;height:120px;border:1px solid rgba(251,113,133,.45);background:rgba(251,113,133,.06);transform:skew(-7deg)}
+  .c .preview{background:radial-gradient(circle at 50% 35%,rgba(16,185,129,.36),transparent 34%),radial-gradient(circle at 84% 84%,rgba(59,130,246,.32),transparent 34%),linear-gradient(145deg,#020617,#052e2b 60%,#0f172a)}
+  .c .headline span{color:#34d399;text-shadow:0 0 22px rgba(52,211,153,.72)}
+  .c .orbit{position:absolute;right:-20px;top:36px;width:150px;height:150px;border:1px solid rgba(52,211,153,.34);border-radius:50%;box-shadow:0 0 35px rgba(52,211,153,.14) inset}.c .orbit:after{content:"";position:absolute;left:24px;top:14px;width:8px;height:8px;background:#34d399;border-radius:50%;box-shadow:0 0 20px #34d399}
+  @media(max-width:900px){.cyber-cards{grid-template-columns:1fr}.preview{height:230px}}
+</style>
+
+<div class="cyber-cards">
+  <div class="cyber-card a" data-choice="a" onclick="toggleSelect(this)">
+    <div class="preview">
+      <div class="gridline"></div><div class="scan"></div>
+      <div class="chip">ANATOLIJ PRI HOSKO // BIO</div>
+      <div class="headline">Complex systems,<br><span>made reliable.</span></div>
+      <div class="copy">A cinematic terminal opens, resolves your name, then lands on a calm premium bio.</div>
+      <div class="cta">Connect on LinkedIn</div><div class="meta">01 / SIGNAL</div>
+    </div>
+    <div class="body"><h3>A — Executive Signal</h3><p>Dark, clean, confident. Cyber details serve credibility rather than spectacle.</p><small>Recommended: best flashy/classy balance.</small></div>
+  </div>
+  <div class="cyber-card b" data-choice="b" onclick="toggleSelect(this)">
+    <div class="preview">
+      <div class="gridline"></div><div class="panel"></div>
+      <div class="chip">1334 :: ACCESS GRANTED</div>
+      <div class="headline">Senior web<br><span>operator.</span></div>
+      <div class="copy">More aggressive hacker/cyberpunk energy with strong glitch typography and red-gold contrast.</div>
+      <div class="cta">Run profile</div><div class="meta">02 / BREACH</div>
+    </div>
+    <div class="body"><h3>B — Cyberpunk Console</h3><p>Highest visual impact and animation potential, but risks feeling less premium/recruiter-friendly.</p><small>Best if you want memorable over restrained.</small></div>
+  </div>
+  <div class="cyber-card c" data-choice="c" onclick="toggleSelect(this)">
+    <div class="preview">
+      <div class="gridline"></div><div class="orbit"></div>
+      <div class="chip">SYSTEMS / APIs / COMMERCE</div>
+      <div class="headline">Quiet tech,<br><span>deep control.</span></div>
+      <div class="copy">Elegant neon green/blue instrumentation, data-orbit motifs, and slow ambient motion.</div>
+      <div class="cta">View bio</div><div class="meta">03 / ORBIT</div>
+    </div>
+    <div class="body"><h3>C — Systems Observatory</h3><p>Most polished and understated. Better for “senior systems thinker” than cinematic wow.</p><small>Best if classiness matters more than flash.</small></div>
+  </div>
+</div>

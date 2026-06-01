@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1334 Tech Anime.js Redesign Preview</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+      :root {
+        color-scheme: dark;
+        --ink: #f8fafc;
+        --muted: #a7b4c8;
+        --cyan: #22d3ee;
+        --blue: #60a5fa;
+        --violet: #a78bfa;
+        --gold: #facc15;
+        --red: #fb7185;
+        --green: #34d399;
+        --line: rgba(148, 163, 184, 0.2);
+        --rx: 0deg;
+        --ry: 0deg;
+        --mx: 0px;
+        --my: 0px;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow: hidden;
+        font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: #020617;
+        perspective: 1200px;
+      }
+
+      .scene {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at calc(22% + var(--mx) * .18) calc(18% + var(--my) * .14), rgba(34, 211, 238, .42), transparent 31%),
+          radial-gradient(circle at calc(78% + var(--mx) * -.15) calc(18% + var(--my) * .12), rgba(167, 139, 250, .34), transparent 34%),
+          radial-gradient(circle at calc(68% + var(--mx) * .12) calc(82% + var(--my) * -.16), rgba(96, 165, 250, .31), transparent 30%),
+          radial-gradient(circle at calc(18% + var(--mx) * -.1) calc(78% + var(--my) * -.12), rgba(52, 211, 153, .18), transparent 32%),
+          linear-gradient(135deg, #020617 0%, #07162a 46%, #0e1027 100%);
+        transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(1.06);
+        transform-origin: center;
+        transition: transform 420ms cubic-bezier(.2,.8,.2,1), background 420ms ease;
+      }
+
+      .starfield {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        opacity: .9;
+        transform: translate3d(calc(var(--mx) * .015), calc(var(--my) * .015), 0);
+        transition: transform 420ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease;
+      }
+      .starfield::before,
+      .starfield::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .starfield::before {
+        background-image:
+          radial-gradient(circle at 11% 18%, rgba(255,255,255,.9) 0 1px, transparent 1.8px),
+          radial-gradient(circle at 42% 12%, rgba(34,211,238,.82) 0 1.1px, transparent 2px),
+          radial-gradient(circle at 78% 22%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+          radial-gradient(circle at 86% 68%, rgba(167,139,250,.8) 0 1px, transparent 2px),
+          radial-gradient(circle at 24% 74%, rgba(52,211,153,.72) 0 1px, transparent 2px),
+          radial-gradient(circle at 58% 86%, rgba(255,255,255,.85) 0 1px, transparent 2px);
+        background-size: 100% 100%;
+        opacity: .58;
+        filter: blur(.15px);
+      }
+      .starfield::after {
+        background-image:
+          radial-gradient(circle, rgba(255,255,255,.95) 0 1px, transparent 1.8px),
+          radial-gradient(circle, rgba(34,211,238,.88) 0 1px, transparent 2px),
+          radial-gradient(circle, rgba(167,139,250,.8) 0 1px, transparent 2px);
+        background-size: 72px 72px, 104px 104px, 132px 132px;
+        background-position: 0 0, 18px 24px, 42px 16px;
+        opacity: .22;
+        mask-image: radial-gradient(circle at center, #000 0 52%, transparent 88%);
+      }
+      .star {
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        width: var(--s);
+        height: var(--s);
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(255,255,255,.98) 0 35%, rgba(255,255,255,.25) 55%, transparent 76%);
+        box-shadow: 0 0 calc(var(--s) * 10) rgba(255,255,255,.12);
+        opacity: var(--o);
+        transform: translate3d(0, 0, 0);
+        animation: twinkle var(--tw) ease-in-out infinite alternate, driftStar var(--drift) linear infinite;
+        animation-delay: var(--delay), var(--delay2);
+        filter: drop-shadow(0 0 4px rgba(255,255,255,.12));
+        will-change: transform, opacity;
+      }
+      .star.accent-cyan { background: radial-gradient(circle, rgba(34,211,238,.98) 0 36%, rgba(34,211,238,.24) 56%, transparent 76%); }
+      .star.accent-violet { background: radial-gradient(circle, rgba(167,139,250,.96) 0 36%, rgba(167,139,250,.22) 56%, transparent 76%); }
+      .star.accent-green { background: radial-gradient(circle, rgba(52,211,153,.92) 0 36%, rgba(52,211,153,.18) 56%, transparent 76%); }
+
+      .scene::before {
+        content: "";
+        position: absolute;
+        inset: -12%;
+        background-image:
+          linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+        background-size: 44px 44px;
+        transform: translate(calc(var(--mx) * -.08), calc(var(--my) * -.08));
+        mask-image: radial-gradient(circle at center, #000 0 44%, transparent 78%);
+        opacity: .6;
+      }
+
+      .ribbon {
+        position: absolute;
+        width: 44vw;
+        min-width: 520px;
+        height: 180px;
+        border: 1px solid rgba(34,211,238,.2);
+        border-radius: 999px;
+        opacity: .34;
+        filter: blur(.4px) drop-shadow(0 0 28px rgba(34,211,238,.22));
+        transform-style: preserve-3d;
+        animation: ribbonDrift 14s ease-in-out infinite alternate;
+      }
+      .ribbon::before,
+      .ribbon::after {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border-radius: inherit;
+        border: 1px dashed rgba(96,165,250,.28);
+      }
+      .ribbon::after { inset: 42px; border-color: rgba(167,139,250,.22); border-style: solid; }
+      .ribbon-a { left: -12%; top: 16%; transform: rotate(-18deg); }
+      .ribbon-b { right: -14%; bottom: 12%; transform: rotate(21deg); animation-delay: -6s; }
+
+      .code-rain {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        opacity: .24;
+        mask-image: radial-gradient(circle at center, #000 0 52%, transparent 78%);
+      }
+      .code-rain span {
+        position: absolute;
+        top: -20%;
+        color: rgba(34,211,238,.58);
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        letter-spacing: .16em;
+        writing-mode: vertical-rl;
+        animation: rain 9s linear infinite;
+      }
+
+      .scene::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(255,255,255,.045) 50%, transparent 50%);
+        background-size: 100% 4px;
+        mix-blend-mode: overlay;
+        opacity: .18;
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(2px);
+        opacity: .8;
+        animation: drift 10s ease-in-out infinite alternate;
+      }
+      .orb-a { width: 280px; height: 280px; left: 10%; top: 12%; background: radial-gradient(circle, rgba(34,211,238,.22), transparent 62%); }
+      .orb-b { width: 340px; height: 340px; right: 6%; top: 8%; background: radial-gradient(circle, rgba(167,139,250,.18), transparent 64%); animation-delay: -3s; }
+      .orb-c { width: 320px; height: 320px; right: 22%; bottom: 0; background: radial-gradient(circle, rgba(96,165,250,.18), transparent 66%); animation-delay: -6s; }
+
+      .network {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .58;
+        transform: translate(calc(var(--mx) * .06), calc(var(--my) * .06));
+      }
+      .network path { stroke-dasharray: 8 18; animation: dash 18s linear infinite; }
+      .network circle { filter: drop-shadow(0 0 12px currentColor); animation: pulse 2.6s ease-in-out infinite; }
+
+      .packet {
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--cyan);
+        box-shadow: 0 0 20px var(--cyan), 0 0 42px rgba(96,165,250,.7);
+        offset-path: path("M90 240 C 260 80 370 170 510 270 S 780 420 900 260 S 1170 80 1350 260");
+        animation: packet 7s ease-in-out infinite;
+      }
+      .packet-b {
+        background: var(--green);
+        box-shadow: 0 0 20px var(--green), 0 0 42px rgba(52,211,153,.55);
+        offset-path: path("M40 650 C 220 520 360 600 520 704 S 810 820 960 610 S 1180 440 1410 610");
+        animation-delay: -3.4s;
+      }
+
+      .intro {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        display: grid;
+        place-items: center;
+        background: rgba(2, 6, 23, .9);
+        backdrop-filter: blur(8px);
+        transition: opacity .7s ease, backdrop-filter .7s ease, transform .7s ease;
+      }
+      .handoff-glow {
+        position: absolute;
+        inset: -10%;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(34,211,238,.52), transparent 26%),
+          radial-gradient(circle at 50% 50%, rgba(167,139,250,.22), transparent 42%),
+          linear-gradient(90deg, transparent 18%, rgba(255,255,255,.12) 50%, transparent 82%);
+        mix-blend-mode: screen;
+        filter: blur(12px);
+        opacity: 0;
+        transform: scale(.72);
+        pointer-events: none;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        padding: 24px;
+        transform: translateY(8px);
+      }
+      .row { display: flex; justify-content: center; flex-wrap: nowrap; }
+      .row p {
+        flex-shrink: 0;
+        margin: .68ch;
+        color: rgba(148, 163, 184, .6);
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: clamp(14px, 2.1vw, 31px);
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .row p.center { color: var(--cyan); text-shadow: 0 0 34px rgba(34,211,238,.75); }
+      .features p { color: rgba(34, 211, 238, .92); }
+      .matrix p { color: rgba(52, 211, 153, .72); font-size: clamp(12px, 1.65vw, 23px); letter-spacing: .12em; }
+      .final-slide { display: grid; place-items: center; }
+      .final-signal {
+        font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+        font-size: clamp(34px, 7vw, 96px);
+        color: var(--ink);
+        text-align: center;
+        text-shadow: 0 0 42px rgba(34,211,238,.62);
+        letter-spacing: .08em;
+      }
+      .loader-ring {
+        position: absolute;
+        width: min(56vw, 580px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 1px solid rgba(34,211,238,.28);
+        box-shadow: inset 0 0 70px rgba(34,211,238,.08), 0 0 80px rgba(34,211,238,.1);
+        opacity: 0;
+      }
+      .loader-ring::before, .loader-ring::after {
+        content: "";
+        position: absolute;
+        inset: 9%;
+        border-radius: inherit;
+        border: 1px dashed rgba(96,165,250,.36);
+      }
+      .loader-ring::after { inset: 21%; border-color: rgba(167,139,250,.36); border-style: solid; }
+
+      .shell {
+        position: relative;
+        min-height: 100vh;
+        padding: clamp(24px, 4vw, 56px);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        opacity: 0;
+        transform-style: preserve-3d;
+        filter: blur(10px);
+      }
+      .floaty { transform-style: preserve-3d; transition: transform 420ms cubic-bezier(.2,.8,.2,1); }
+      .nav, .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+      }
+      .brand {
+        color: var(--ink);
+        display: inline-flex;
+        gap: 14px;
+        align-items: center;
+        font-weight: 800;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .brand-lockup {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px 8px 10px;
+        border: 1px solid rgba(34, 211, 238, .42);
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(34,211,238,.14), rgba(167,139,250,.07));
+        box-shadow: 0 0 30px rgba(34, 211, 238, .2);
+        overflow: hidden;
+      }
+      .brand-logo {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        display: block;
+        filter: drop-shadow(0 0 12px rgba(34,211,238,.35));
+      }
+      .brand-wordmark {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 4px;
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .16em;
+        font-size: 12px;
+      }
+      .brand-name {
+        color: rgba(248,250,252,.78);
+        font-size: 12px;
+        letter-spacing: .08em;
+        white-space: nowrap;
+      }
+      .brand-lockup::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+        transform: translateX(-120%);
+        animation: sheen 5.6s ease-in-out infinite;
+        pointer-events: none;
+        opacity: .8;
+      }
+      .replay {
+        border: 1px solid rgba(34,211,238,.44);
+        border-radius: 999px;
+        padding: 10px 14px;
+        color: var(--ink);
+        background: rgba(2, 6, 23, .46);
+        cursor: pointer;
+        font: inherit;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        box-shadow: 0 0 28px rgba(34,211,238,.12);
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        font-size: 20px;
+        line-height: 1;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, .72fr);
+        gap: clamp(28px, 6vw, 90px);
+        align-items: center;
+      }
+      .kicker {
+        display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+        color: var(--cyan); font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: clamp(12px, 1.2vw, 14px); letter-spacing: .16em; text-transform: uppercase;
+      }
+      .pulse { width: 8px; height: 8px; border-radius: 999px; background: var(--cyan); box-shadow: 0 0 24px var(--cyan); animation: pulse 1.8s ease-in-out infinite; }
+      h1 { max-width: 960px; margin: 0; font-size: clamp(56px, 8.6vw, 126px); line-height: .86; letter-spacing: -.06em; font-weight: 800; }
+      .signal { color: var(--cyan); text-shadow: 0 0 32px rgba(34, 211, 238, .58), 0 0 90px rgba(96,165,250,.34); }
+      .bio { margin: 26px 0 0; max-width: 650px; color: #d7e2f0; font-size: clamp(17px, 1.75vw, 22px); line-height: 1.55; }
+      .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+      .button {
+        border: 1px solid rgba(34, 211, 238, .55); border-radius: 999px; padding: 14px 20px;
+        color: var(--ink); text-decoration: none; background: linear-gradient(135deg, rgba(34,211,238,.2), rgba(96,165,250,.1));
+        box-shadow: 0 18px 60px rgba(34,211,238,.2); font-weight: 800;
+      }
+      .button.secondary { color: var(--muted); border-color: rgba(148, 163, 184, .28); background: rgba(255,255,255,.045); box-shadow: none; }
+      .panel {
+        position: relative; border: 1px solid var(--line); background: rgba(2, 6, 23, .62); border-radius: 26px; padding: 20px;
+        overflow: hidden; box-shadow: 0 30px 120px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.1); backdrop-filter: blur(18px);
+      }
+      .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at calc(50% + var(--mx) * .08) calc(20% + var(--my) * .08), rgba(34,211,238,.14), transparent 42%);
+        pointer-events: none;
+      }
+      .terminal-bar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+      .dots { display: flex; gap: 7px; } .dot { width: 9px; height: 9px; border-radius: 99px; background: #64748b; }
+      .dot:nth-child(1) { background: #fb7185; } .dot:nth-child(2) { background: #facc15; } .dot:nth-child(3) { background: #34d399; }
+      .readout { padding: 22px 0 4px; font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .line { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(148, 163, 184, .1); color: #d7e2f0; font-size: 14px; }
+      .line span:first-child { color: var(--cyan); }
+      .chips { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+      .chip-card { border: 1px solid rgba(148, 163, 184, .18); border-radius: 18px; padding: 16px; background: rgba(15, 23, 42, .5); }
+      .chip-card strong { display: block; margin-bottom: 6px; } .chip-card small { color: var(--muted); line-height: 1.45; }
+      .footer { align-self: end; opacity: .58; justify-content: center; font-size: 11px; letter-spacing: .16em; } .footer strong { color: var(--ink); }
+
+      @keyframes drift { from { transform: translate3d(-16px, -10px, 0) scale(.98); } to { transform: translate3d(20px, 18px, 0) scale(1.08); } }
+      @keyframes ribbonDrift { from { translate: -20px -12px; rotate: -4deg; } to { translate: 26px 16px; rotate: 5deg; } }
+      @keyframes twinkle { from { opacity: calc(var(--o) * .55); } to { opacity: calc(var(--o) * 1); } }
+      @keyframes driftStar { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(0, -8px, 0) scale(1.05); } }
+      @keyframes rain { to { transform: translateY(140vh); } }
+      @keyframes dash { to { stroke-dashoffset: -240; } }
+      @keyframes pulse { 50% { opacity: .45; transform: scale(.86); } }
+      @keyframes packet { 0% { offset-distance: 0%; opacity: 0; } 10%, 86% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+      @keyframes sheen { 42%, 100% { transform: translateX(115%); } }
+
+      @media (max-width: 880px) {
+        body { overflow: auto; }
+        .hero { grid-template-columns: 1fr; padding: 50px 0; }
+        .nav, .footer { gap: 16px; align-items: flex-start; flex-direction: column; }
+        .brand { align-items: flex-start; flex-direction: column; gap: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scene" aria-hidden="true">
+      <div class="starfield"></div>
+      <div class="ribbon ribbon-a"></div><div class="ribbon ribbon-b"></div>
+      <div class="code-rain">
+        <span style="left:8%;animation-delay:-1s">0101 API 1100</span><span style="left:18%;animation-delay:-5s">PIM 0011 SYS</span><span style="left:31%;animation-delay:-2.8s">FLOW 1010</span><span style="left:47%;animation-delay:-7s">SYNC 0110</span><span style="left:64%;animation-delay:-3.6s">QUEUE 0101</span><span style="left:82%;animation-delay:-6.2s">DATA 1110</span>
+      </div>
+      <div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
+      <svg class="network" viewBox="0 0 1440 900" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="strokeA" x1="0" x2="1"><stop stop-color="#22d3ee" stop-opacity=".18"/><stop offset=".55" stop-color="#60a5fa" stop-opacity=".62"/><stop offset="1" stop-color="#a78bfa" stop-opacity=".18"/></linearGradient>
+        </defs>
+        <path d="M90 240 C 260 80 370 170 510 270 S 780 420 900 260 S 1170 80 1350 260" fill="none" stroke="url(#strokeA)" stroke-width="3"/>
+        <path d="M40 650 C 220 520 360 600 520 704 S 810 820 960 610 S 1180 440 1410 610" fill="none" stroke="url(#strokeA)" stroke-width="2"/>
+        <path d="M260 70 C 390 230 420 370 600 430 S 900 510 1040 380 S 1260 280 1420 390" fill="none" stroke="url(#strokeA)" stroke-width="2"/>
+        <circle cx="510" cy="270" r="7" fill="#22d3ee"/><circle cx="900" cy="260" r="6" fill="#60a5fa"/><circle cx="520" cy="704" r="6" fill="#34d399"/><circle cx="960" cy="610" r="7" fill="#22d3ee"/><circle cx="1040" cy="380" r="5" fill="#a78bfa"/>
+      </svg>
+      <div class="packet"></div><div class="packet packet-b"></div>
+    </div>
+
+    <section class="intro" aria-label="Anime.js scramble intro preview">
+      <div class="handoff-glow"></div>
+      <div class="loader-ring"></div>
+      <div class="slide intro-grid">
+        <div class="row"><p>Signal</p><p>Signal</p></div>
+        <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p></div>
+        <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p><p>Signal</p></div>
+        <div class="row"><p>Signal</p><p>Signal</p><p class="center">Signal</p><p>Signal</p><p>Signal</p></div>
+        <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p><p>Signal</p></div>
+        <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p></div>
+        <div class="row"><p>Signal</p><p>Signal</p></div>
+      </div>
+      <div class="slide matrix">
+        <div class="row"><p>0101 0011</p><p>1110 0100</p><p>0011 1001</p></div>
+        <div class="row"><p>commerce</p><p>api</p><p>pim</p><p>systems</p></div>
+        <div class="row"><p>routing</p><p>normalizing</p><p>monitoring</p></div>
+        <div class="row"><p>production</p><p>reliability</p><p>handoffs</p></div>
+      </div>
+      <div class="slide features">
+        <div class="row"><p>Commerce</p><p>Systems</p></div>
+        <div class="row"><p>APIs</p><p>Automation</p><p>Reliability</p></div>
+        <div class="row"><p>PIM</p><p>Product Data</p><p>Delivery</p></div>
+        <div class="row"><p>Frontend</p><p>Backend</p><p>Operations</p></div>
+      </div>
+      <div class="slide final-slide"><p class="final-signal">ANATOLIJ PRIHOSKO</p></div>
+    </section>
+
+    <main class="shell">
+      <nav class="nav floaty" data-depth="18">
+        <div class="brand">
+          <span class="brand-lockup">
+            <img class="brand-logo" src="../../../img/1334_logo_white.png" alt="" onerror="this.hidden=true" />
+            <span class="brand-wordmark">1334 TECH</span>
+          </span>
+          <span class="brand-name">Anatolij Prihosko</span>
+        </div>
+        <button class="replay" type="button" aria-label="Replay signal animation" title="Replay signal animation">↻</button>
+      </nav>
+      <section class="hero">
+        <div class="copy floaty" data-depth="34">
+          <div class="kicker"><span class="pulse"></span> profile signal resolved</div>
+          <h1>Complex systems,<br><span class="signal">made reliable.</span></h1>
+          <p class="bio">Senior web developer turning messy commerce, API, and product-data systems into dependable production workflows.</p>
+          <div class="actions"><a class="button" href="#">Connect on LinkedIn</a></div>
+        </div>
+        <aside class="panel floaty" data-depth="56">
+          <div class="terminal-bar"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><span>bio.init</span></div>
+          <div class="readout">
+            <div class="line"><span>&gt;</span><span>identity: Anatolij Prihosko</span></div>
+            <div class="line"><span>&gt;</span><span>focus: complex system reliability</span></div>
+            <div class="line"><span>&gt;</span><span>mode: senior production delivery</span></div>
+          </div>
+          <div class="chips">
+            <div class="chip-card"><strong>eCommerce</strong><small>Commerce platforms, checkout flows, catalogs, operational constraints.</small></div>
+            <div class="chip-card"><strong>API Integrations</strong><small>Business-system connectivity, automation, data exchange, maintainable handoffs.</small></div>
+            <div class="chip-card"><strong>PIM / Product Data</strong><small>Product information workflows, enrichment, synchronization, channel-ready data.</small></div>
+          </div>
+        </aside>
+      </section>
+      <footer class="footer floaty" data-depth="14"><div><strong>1334 Tech</strong> — Anatolij Prihosko</div></footer>
+    </main>
+
+    <script type="module">
+      import { createTimeline, scrambleText, stagger } from "https://esm.sh/animejs";
+
+      const root = document.documentElement;
+      const shell = document.querySelector(".shell");
+      const replay = document.querySelector(".replay");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const starfield = document.querySelector(".starfield");
+      const floaties = Array.from(document.querySelectorAll(".floaty"));
+      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+
+      for (let i = 0; i < 180; i += 1) {
+        const star = document.createElement("span");
+        const size = Math.random() * 2.3 + (Math.random() > .9 ? 1.8 : .6);
+        star.className = ["star", ["", "accent-cyan", "accent-violet", "accent-green"][Math.floor(Math.random() * 4)]].join(" ").trim();
+        star.style.setProperty("--x", `${Math.random() * 100}%`);
+        star.style.setProperty("--y", `${Math.random() * 100}%`);
+        star.style.setProperty("--s", `${size}px`);
+        star.style.setProperty("--o", `${Math.random() * .75 + .2}`);
+        star.style.setProperty("--tw", `${Math.random() * 3.8 + 2.4}s`);
+        star.style.setProperty("--drift", `${Math.random() * 18 + 12}s`);
+        star.style.setProperty("--delay", `${-(Math.random() * 4.5)}s`);
+        star.style.setProperty("--delay2", `${-(Math.random() * 8)}s`);
+        starfield.appendChild(star);
+      }
+
+      window.addEventListener("pointermove", (event) => {
+        pointer.tx = event.clientX / window.innerWidth - .5;
+        pointer.ty = event.clientY / window.innerHeight - .5;
+      });
+      window.addEventListener("pointerleave", () => {
+        pointer.tx = 0;
+        pointer.ty = 0;
+      });
+
+      function smoothFrame() {
+        pointer.x += (pointer.tx - pointer.x) * .075;
+        pointer.y += (pointer.ty - pointer.y) * .075;
+        root.style.setProperty("--ry", `${pointer.x * 6.5}deg`);
+        root.style.setProperty("--rx", `${pointer.y * -5.8}deg`);
+        root.style.setProperty("--mx", `${pointer.x * 88}px`);
+        root.style.setProperty("--my", `${pointer.y * 88}px`);
+        floaties.forEach((el) => {
+          const depth = Number(el.dataset.depth || 20);
+          el.style.transform = `translate3d(${pointer.x * depth}px, ${pointer.y * depth}px, ${depth / 3}px) rotateX(${pointer.y * -2}deg) rotateY(${pointer.x * 2}deg)`;
+        });
+        window.requestAnimationFrame(smoothFrame);
+      }
+      window.requestAnimationFrame(smoothFrame);
+
+      function resetIntroText() {
+        document.querySelectorAll(".intro-grid p").forEach((p) => { p.innerHTML = "Signal"; });
+        document.querySelectorAll(".matrix p").forEach((p, i) => { p.innerHTML = ["0101 0011", "1110 0100", "0011 1001", "commerce", "api", "pim", "systems", "routing", "normalizing", "monitoring", "production", "reliability", "handoffs"][i] || "signal"; });
+        document.querySelectorAll(".features p").forEach((p, i) => { p.innerHTML = ["Commerce", "Systems", "APIs", "Automation", "Reliability", "PIM", "Product Data", "Delivery", "Frontend", "Backend", "Operations"][i] || "Systems"; });
+        document.querySelector(".final-signal").innerHTML = "ANATOLIJ PRIHOSKO";
+      }
+
+      function runIntro() {
+        resetIntroText();
+        let intro = document.querySelector(".intro");
+        if (!intro) {
+          intro = document.createElement("section");
+          intro.className = "intro";
+          intro.innerHTML = document.querySelector("template#intro-template").innerHTML;
+          document.body.prepend(intro);
+          resetIntroText();
+        }
+
+        shell.style.opacity = "0";
+        shell.style.transform = "translateY(18px) scale(.992)";
+        shell.style.filter = "blur(10px)";
+        document.querySelectorAll(".slide").forEach((slide) => { slide.style.opacity = "0"; slide.style.transform = "translateY(8px)"; });
+        document.querySelector(".loader-ring").style.opacity = "0";
+
+        if (reduceMotion) {
+          intro.remove();
+          shell.style.opacity = "1";
+          shell.style.transform = "none";
+          shell.style.filter = "none";
+          return;
+        }
+
+        const tl = createTimeline();
+        tl.add(".loader-ring", { opacity: [0, .88], rotate: [0, 270], scale: [.8, 1.02], duration: 980, ease: "inOutSine" });
+        tl.add(".intro-grid", { opacity: { to: 1, duration: 220, ease: "linear" }, translateY: [12, 0], scale: [{ from: .94, to: 1, duration: 980, ease: "out(3)" }] }, "<<+=120");
+        tl.add(".intro-grid p.center", { color: { from: "var(--gold)", to: "var(--cyan)" }, innerHTML: scrambleText({ override: " ", ease: "inQuad", duration: 460, from: "center", cursor: "░▒▓█" }) }, "<<");
+        tl.add(".intro-grid p:not(.center)", { color: { to: "var(--red)" }, innerHTML: scrambleText({ override: " ", from: "center", duration: 500, revealDelay: 180, cursor: "░▒▓", perturbation: .22 }) }, stagger([80, 520], { grid: true, from: "center", ease: "out(2.5)", start: "<<" }));
+        tl.add(".intro-grid p:not(.center)", { innerHTML: scrambleText({ text: "", override: false, from: "center", ease: "outQuad", reversed: true, duration: 460, cursor: "░▒▓" }) }, "<+=120");
+        tl.add(".intro-grid p.center", { color: { to: "var(--cyan)" }, duration: 520, ease: "inOutSine", innerHTML: scrambleText({ text: "COMPLEX SYSTEMS", ease: "inQuad", override: false, from: "center", duration: 640, perturbation: .18 }) }, "<<");
+        tl.add(".intro-grid p.center", { innerHTML: scrambleText({ text: "MADE RELIABLE", override: false, from: "right", duration: 560, settleDuration: 240, ease: "out(2.5)", cursor: "░▒▓" }) }, "<+=420");
+        tl.add(".intro-grid", { opacity: 0, translateY: -6, duration: 240, ease: "inQuad" }, "<+=160");
+
+        tl.set(".matrix", { opacity: 1 }, "<<-=100");
+        tl.add(".matrix p", { innerHTML: scrambleText({ override: " ", from: "random", duration: 470, revealDelay: 100, cursor: "_01", perturbation: .58 }) }, stagger([0, 520], { grid: true, from: "center", ease: "out(2.5)", start: "<<" }));
+        tl.add(".matrix p", { scale: [.92, 1.05, 1], color: { to: "var(--green)" }, duration: 440, ease: "inOutSine" }, stagger([0, 70], { grid: true, from: "center", start: "<<" }));
+        tl.add(".matrix p", { innerHTML: scrambleText({ text: "", override: false, from: "center", reversed: true, duration: 280, cursor: "░▒▓" }) }, stagger([0, 200], { grid: true, from: "center", ease: "out(2.5)", start: "<+=150" }));
+
+        tl.set(".features", { opacity: 1 }, "<<");
+        tl.add(".features p", { innerHTML: scrambleText({ override: " ", from: "center", duration: 400, revealDelay: 140, cursor: "░▒▓", perturbation: .38 }) }, stagger([0, 560], { grid: true, from: "center", ease: "out(2.5)", start: "<<+=100", reversed: true }));
+        tl.add(".features p", { innerHTML: scrambleText({ text: "&nbsp;", override: false, from: "center", reversed: true, duration: 260, cursor: "░▒▓" }) }, stagger([0, 180], { grid: true, from: "center", ease: "out(2.5)", start: "<+=160" }));
+
+        tl.set(".final-slide", { opacity: 1 }, "<<");
+        tl.add(".loader-ring", { rotate: [270, 640], scale: [1.02, .72], opacity: [.82, .28], duration: 780, ease: "inOutSine" }, "<<");
+        tl.add(".handoff-glow", { opacity: [0, .9, 0], scale: [.72, 1.18], duration: 980, ease: "inOutSine" }, "<<+=80");
+        tl.add(".final-slide p", { opacity: [0, 1], translateY: [12, 0], filter: ["blur(10px)", "blur(0px)"], ease: "out(3)", innerHTML: scrambleText({ override: " ", from: "center", settleDuration: 260, revealRate: 30, perturbation: .16, cursor: "░▒▓" }) }, "<+=120");
+        tl.add(".final-slide p", { color: { to: "var(--cyan)", duration: 520 }, duration: 640, ease: "inOutSine", innerHTML: scrambleText({ text: "ANATOLIJ PRIHOSKO", override: false, from: "right", cursor: "░▒▓", duration: 640, ease: "out(2.5)" }) }, "<+=320");
+        tl.add(".intro", { opacity: 0, duration: 280, ease: "outQuad" }, "<+=220");
+
+        tl.add(".shell", { opacity: 1, translateY: [18, 0], scale: [.992, 1], filter: ["blur(10px)", "blur(0px)"], duration: 760, ease: "out(3)" }, "<+=40");
+        tl.add(".nav", { opacity: [0, 1], translateY: [-10, 0], duration: 420, ease: "out(3)" }, "<<+=100");
+        tl.add(".kicker", { opacity: [0, 1], translateX: [-14, 0], duration: 360, ease: "out(3)" }, "<+=60");
+        tl.add("h1", { opacity: [0, 1], translateY: [24, 0], filter: ["blur(16px)", "blur(0px)"], duration: 680, ease: "out(4)" }, "<+=60");
+        tl.add(".signal", { innerHTML: scrambleText({ text: "made reliable.", override: false, from: "right", duration: 560, cursor: "░▒▓" }) }, "<<+=160");
+        tl.add(".bio", { opacity: [0, 1], translateY: [12, 0], duration: 420, ease: "out(3)" }, "<+=120");
+        tl.add(".button", { opacity: [0, 1], translateY: [12, 0], scale: [.96, 1], duration: 400, ease: "out(2.5)" }, stagger(72, { start: "<+=90" }));
+        tl.add(".panel", { opacity: [0, 1], translateX: [36, 0], rotateY: [-8, 0], duration: 620, ease: "out(3)" }, "<-=360");
+        tl.add(".line", { opacity: [0, 1], translateX: [12, 0], duration: 260, ease: "out(3)" }, stagger(70, { start: "<+=160" }));
+        tl.add(".chip-card", { opacity: [0, 1], translateY: [14, 0], scale: [.96, 1], duration: 360, ease: "out(2.5)" }, stagger(70, { start: "<+=90" }));
+        tl.add(".footer", { opacity: [0, 1], translateY: [10, 0], duration: 320, ease: "out(3)" }, "<+=100");
+        tl.init();
+        window.setTimeout(() => { const current = document.querySelector(".intro"); if (current) current.remove(); }, 7000);
+      }
+
+      replay.addEventListener("click", runIntro);
+      runIntro();
+    </script>
+
+    <template id="intro-template">
+      <div class="handoff-glow"></div>
+      <div class="loader-ring"></div>
+      <div class="slide intro-grid">
+        <div class="row"><p>Signal</p><p>Signal</p></div><div class="row"><p>Signal</p><p>Signal</p><p>Signal</p></div><div class="row"><p>Signal</p><p>Signal</p><p>Signal</p><p>Signal</p></div><div class="row"><p>Signal</p><p>Signal</p><p class="center">Signal</p><p>Signal</p><p>Signal</p></div><div class="row"><p>Signal</p><p>Signal</p><p>Signal</p><p>Signal</p></div><div class="row"><p>Signal</p><p>Signal</p><p>Signal</p></div><div class="row"><p>Signal</p><p>Signal</p></div>
+      </div>
+      <div class="slide matrix"><div class="row"><p>0101 0011</p><p>1110 0100</p><p>0011 1001</p></div><div class="row"><p>commerce</p><p>api</p><p>pim</p><p>systems</p></div><div class="row"><p>routing</p><p>normalizing</p><p>monitoring</p></div><div class="row"><p>production</p><p>reliability</p><p>handoffs</p></div></div>
+      <div class="slide features"><div class="row"><p>Commerce</p><p>Systems</p></div><div class="row"><p>APIs</p><p>Automation</p><p>Reliability</p></div><div class="row"><p>PIM</p><p>Product Data</p><p>Delivery</p></div><div class="row"><p>Frontend</p><p>Backend</p><p>Operations</p></div></div>
+      <div class="slide final-slide"><p class="final-signal">ANATOLIJ PRIHOSKO</p></div>
+    </template>
+  </body>
+</html>
