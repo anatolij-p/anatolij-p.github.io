@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def minify_css(css: str) -> str:
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
     css = re.sub(r"\s+", " ", css)
-    css = re.sub(r"\s*([{}:;,>+~])\s*", r"\1", css)
+    css = re.sub(r"\s*([{}:;,>~])\s*", r"\1", css)
+    css = re.sub(r"(?<![\w\-.%])\s*\+\s*(?![\w\-.%])", "+", css)
     css = css.replace(";}" , "}")
     return css.strip() + "\n"
 

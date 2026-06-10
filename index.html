@@ -16,6 +16,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.min.css" />
+    <noscript>
+      <style>
+        .intro{display:none!important}.shell{opacity:1!important;transform:none!important;filter:none!important}body{overflow:auto!important}
+      </style>
+    </noscript>
   </head>
   <body>
     <div class="scene" aria-hidden="true">
@@ -54,10 +59,11 @@
       <div class="packet packet-b"></div>
     </div>
 
-    <section class="intro" aria-hidden="true" aria-label="Animated profile signal">
-      <div class="handoff-glow"></div>
-      <div class="loader-ring"></div>
-      <div class="slide intro-grid">
+    <section class="intro" aria-label="Animated profile signal">
+      <button class="intro-skip" type="button" aria-label="Skip intro animation">×</button>
+      <div class="handoff-glow" aria-hidden="true"></div>
+      <div class="loader-ring" aria-hidden="true"></div>
+      <div class="slide intro-grid" aria-hidden="true">
         <div class="row"><p>Signal</p><p>Signal</p></div>
         <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p></div>
         <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p><p>Signal</p></div>
@@ -66,26 +72,25 @@
         <div class="row"><p>Signal</p><p>Signal</p><p>Signal</p></div>
         <div class="row"><p>Signal</p><p>Signal</p></div>
       </div>
-      <div class="slide matrix">
+      <div class="slide matrix" aria-hidden="true">
         <div class="row"><p>0101 0011</p><p>1110 0100</p><p>0011 1001</p></div>
         <div class="row"><p>commerce</p><p>api</p><p>pim</p><p>systems</p></div>
         <div class="row"><p>routing</p><p>normalizing</p><p>monitoring</p></div>
         <div class="row"><p>production</p><p>reliability</p><p>handoffs</p></div>
       </div>
-      <div class="slide features">
+      <div class="slide features" aria-hidden="true">
         <div class="row"><p>Commerce</p><p>Systems</p></div>
         <div class="row"><p>APIs</p><p>Automation</p><p>Reliability</p></div>
         <div class="row"><p>PIM</p><p>Product Data</p><p>Delivery</p></div>
         <div class="row"><p>Frontend</p><p>Backend</p><p>Operations</p></div>
       </div>
-      <div class="slide final-slide"><p class="final-signal">ANATOLIJ PRIHOSKO</p></div>
+      <div class="slide final-slide" aria-hidden="true"><p class="final-signal">ANATOLIJ PRIHOSKO</p></div>
     </section>
 
     <main class="shell">
       <nav class="nav floaty" data-depth="18" aria-label="Site header">
         <div class="brand">
-          <span class="brand-lockup"><img class="brand-logo" src="img/1334_logo_white.png" alt="" width="28" height="28" /><span class="mark">1334 TECH</span></span>
-          <span>Anatolij Prihosko</span>
+          <a class="brand-lockup" href="/" aria-label="1334 TECH home"><img class="brand-logo" src="img/1334_logo_white.png" alt="" width="28" height="28" /><span class="mark">1334 TECH</span></a>
         </div>
         <button class="replay" type="button" aria-label="Replay signal animation" title="Replay signal animation">↻</button>
       </nav>
