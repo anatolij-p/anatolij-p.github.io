@@ -215,13 +215,13 @@ function initThree() {
     positionsGrid[i * 3 + 2] = z * 4
   }
 
-  // Singularity state: converge to a glowing orb with layered spread
+  // Singularity state: orb offset right so text on the left stays readable
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     const theta = Math.random() * Math.PI * 2
     const phi = Math.acos(2 * Math.random() - 1)
-    const r = Math.pow(Math.random(), 2) * 12
-    positionsSingularity[i * 3]     = r * Math.sin(phi) * Math.cos(theta)
-    positionsSingularity[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
+    const r = Math.pow(Math.random(), 2) * 14
+    positionsSingularity[i * 3]     = r * Math.sin(phi) * Math.cos(theta) + 55
+    positionsSingularity[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) + 0
     positionsSingularity[i * 3 + 2] = r * Math.cos(phi)
   }
 
@@ -257,9 +257,9 @@ function initThree() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
       float alpha = 1.0 - smoothstep(0.0, 0.5, d);
-      float glow = exp(-d * 4.0);
-      vec3 col = vColor * (1.0 + glow * 1.5);
-      gl_FragColor = vec4(col, alpha * 0.85);
+      float glow = exp(-d * 5.0);
+      vec3 col = vColor * (1.0 + glow * 0.8);
+      gl_FragColor = vec4(col, alpha * 0.65);
     }
   `
 
@@ -320,7 +320,7 @@ function initThree() {
 
   const bloom = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    1.6, 0.7, 0.1
+    1.0, 0.6, 0.15
   )
   composer.addPass(bloom)
 
@@ -402,14 +402,14 @@ function initThree() {
       const t = self.progress
       lerpPositions(positions, positionsGrid, t)
       lineMat.opacity = 0.06 * (1 - t)
-      bloom.strength = 1.6 - t * 0.4
+      bloom.strength = 1.0 - t * 0.2
       if (t > 0.3) hud.classList.add('hidden')
       else hud.classList.remove('hidden')
     },
     onLeaveBack: () => {
       lerpPositions(positions, positionsGrid, 0)
       lineMat.opacity = 0.06
-      bloom.strength = 1.6
+      bloom.strength = 1.0
     },
   })
 
@@ -420,12 +420,12 @@ function initThree() {
     onUpdate: self => {
       const t = self.progress
       lerpPositions(positionsGrid, positionsSingularity, t)
-      bloom.strength = 1.2 + t * 0.8
-      camera.position.z = 80 - t * 20
+      bloom.strength = 0.8 + t * 0.6
+      camera.position.z = 80 - t * 15
     },
     onLeaveBack: () => {
       lerpPositions(positionsGrid, positionsSingularity, 0)
-      bloom.strength = 1.2
+      bloom.strength = 0.8
       camera.position.z = 80
     },
   })
