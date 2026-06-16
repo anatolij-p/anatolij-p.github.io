@@ -109,16 +109,62 @@ function initScroll() {
   }, { threshold: 0.4 })
   sections.forEach(s => observer.observe(s))
 
-  // smooth nav click
+  return lenis
+}
+
+// ─── Section Snap ─────────────────────────────────────────
+function initSectionSnap(lenis) {
+  const sections = Array.from(document.querySelectorAll('.section'))
+  const DURATION = 1.2
+  const ease = t => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+  let isAnimating = false
+  let safetyTimer = null
+
+  function getActiveIndex() {
+    const mid = window.scrollY + window.innerHeight * 0.5
+    let idx = 0
+    sections.forEach((s, i) => { if (s.offsetTop <= mid) idx = i })
+    return idx
+  }
+
+  function goTo(index) {
+    const i = Math.max(0, Math.min(sections.length - 1, index))
+    isAnimating = true
+    clearTimeout(safetyTimer)
+    lenis.scrollTo(sections[i], { duration: DURATION, easing: ease,
+      onComplete: () => { isAnimating = false }
+    })
+    safetyTimer = setTimeout(() => { isAnimating = false }, (DURATION + 0.4) * 1000)
+  }
+
+  // Intercept wheel before Lenis (capture phase) to prevent free scroll
+  window.addEventListener('wheel', e => {
+    e.preventDefault()
+    if (isAnimating) return
+    goTo(getActiveIndex() + (e.deltaY > 0 ? 1 : -1))
+  }, { passive: false, capture: true })
+
+  // Touch swipe
+  let touchStartY = 0
+  window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY }, { passive: true })
+  window.addEventListener('touchend', e => {
+    if (isAnimating) return
+    const dy = touchStartY - e.changedTouches[0].clientY
+    if (Math.abs(dy) < 40) return
+    goTo(getActiveIndex() + (dy > 0 ? 1 : -1))
+  }, { passive: true })
+
+  // Nav / anchor clicks route through snap
   document.querySelectorAll('[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault()
       const target = document.querySelector(a.getAttribute('href'))
-      if (target) lenis.scrollTo(target, { duration: 1.6, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
+      if (!target) return
+      const idx = sections.indexOf(target)
+      if (idx !== -1) goTo(idx)
+      else lenis.scrollTo(target, { duration: DURATION, easing: ease })
     })
   })
-
-  return lenis
 }
 
 // ─── Reduced-motion fallback: just set final state ─────────
@@ -598,7 +644,7 @@ async function boot() {
   if (reducedMotion) {
     document.getElementById('preloader').classList.add('hidden')
     initCursor()
-    initScroll()
+    initSectionSnap(initScroll())
     revealAllImmediately()
     return
   }
@@ -606,7 +652,7 @@ async function boot() {
   await runPreloader()
 
   initCursor()
-  initScroll()
+  initSectionSnap(initScroll())
   const three = initThree()
   initLoadReveal(three)
   initSectionReveals()
