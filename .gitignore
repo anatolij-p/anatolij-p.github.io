@@ -1,0 +1,20 @@
+# Dependencies & build
+node_modules/
+dist/
+
+# macOS
+.DS_Store
+
+# Dev screenshots & iteration PNGs
+screenshot-*.png
+s[0-9]*.png
+v[0-9]*.png
+final-*.png
+hero-*.png
+
+# Tool artefacts
+.playwright-mcp/
+.superpowers/
+
+# Planning docs
+PLAN.md
