@@ -37,6 +37,10 @@ The WebGL canvas is `position:fixed` behind all content and persists across all 
 
 All design tokens in `:root` at the top of `style.css`. Key ones: `--cyan #00E5FF`, `--violet #7C5CFF`, `--amber #FFB454`, `--green #00FFA3`. Cards use `--card-accent` as a per-card CSS custom property set on `.card--cyan / --violet / --amber / --green`.
 
+### scripts/
+
+Utility scripts (Python). `__pycache__/` is gitignored.
+
 ### Deployment
 
 `gh-pages` npm package pushes `dist/` to the `gh-pages` branch. The GitHub repo Settings → Pages must point to that branch (one-time manual step). `vite.config.js` has `base: '/'` — correct for the user page (`anatolij-p.github.io`), do NOT change to a sub-path.
