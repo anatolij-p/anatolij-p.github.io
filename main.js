@@ -15,9 +15,8 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 
 // ─── Preloader ────────────────────────────────────────────
 const BOOT_LINES = [
-  '> INITIALISING 1334 TECH SYSTEMS...',
-  '> LOADING NEURAL MESH [████████████] 100%',
-  '> ESTABLISHING CONNECTIONS...',
+  '> INITIALISING 1334.TECH',
+  '> LOADING...',
   '> READY',
 ]
 
@@ -236,14 +235,25 @@ function initThree() {
     attribute float aSize;
     uniform float uTime;
     uniform float uPixelRatio;
+    uniform float uExplosion;
     varying vec3 vColor;
     varying float vDist;
 
     void main() {
       vColor = color;
-      vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+      vec3 pos = position;
+
+      // radial explosion from orb centre when in contact section
+      if (uExplosion > 0.0) {
+        vec3 orbCentre = vec3(55.0, 0.0, 0.0);
+        vec3 dir = normalize(pos - orbCentre + vec3(0.001, 0.001, 0.001));
+        float wave = sin(uTime * 1.2 + length(pos - orbCentre) * 0.3) * 0.5 + 0.5;
+        pos += dir * uExplosion * 80.0 * wave;
+      }
+
+      vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
       vDist = length(mvPos.xyz);
-      float pulse = sin(uTime * 1.5 + position.x * 0.05 + position.y * 0.05) * 0.4 + 0.6;
+      float pulse = sin(uTime * 1.5 + pos.x * 0.05 + pos.y * 0.05) * 0.4 + 0.6;
       gl_PointSize = aSize * uPixelRatio * pulse * (120.0 / -mvPos.z);
       gl_Position = projectionMatrix * mvPos;
     }
@@ -269,6 +279,7 @@ function initThree() {
     uniforms: {
       uTime: { value: 0 },
       uPixelRatio: { value: renderer.getPixelRatio() },
+      uExplosion: { value: 0 },
     },
     transparent: true,
     vertexColors: true,
@@ -391,9 +402,6 @@ function initThree() {
     geometry.attributes.position.needsUpdate = true
   }
 
-  // HUD visibility
-  const hud = document.getElementById('hud')
-
   ScrollTrigger.create({
     trigger: '#stack',
     start: 'top 80%',
@@ -403,8 +411,6 @@ function initThree() {
       lerpPositions(positions, positionsGrid, t)
       lineMat.opacity = 0.06 * (1 - t)
       bloom.strength = 1.0 - t * 0.2
-      if (t > 0.3) hud.classList.add('hidden')
-      else hud.classList.remove('hidden')
     },
     onLeaveBack: () => {
       lerpPositions(positions, positionsGrid, 0)
@@ -413,6 +419,8 @@ function initThree() {
     },
   })
 
+  let explosionTween = null
+
   ScrollTrigger.create({
     trigger: '#contact',
     start: 'top 80%',
@@ -420,10 +428,27 @@ function initThree() {
     onUpdate: self => {
       const t = self.progress
       lerpPositions(positionsGrid, positionsSingularity, t)
-      bloom.strength = 0.8 + t * 0.6
+      bloom.strength = 0.8 + t * 0.5
       camera.position.z = 80 - t * 15
     },
+    onEnter: () => {
+      // start pulsing explosion once orb is formed
+      if (!explosionTween) {
+        explosionTween = gsap.to(material.uniforms.uExplosion, {
+          value: 1,
+          duration: 1.8,
+          ease: 'power2.inOut',
+          yoyo: true,
+          repeat: -1,
+          onUpdate: () => {
+            bloom.strength = 0.8 + material.uniforms.uExplosion.value * 0.9
+          },
+        })
+      }
+    },
     onLeaveBack: () => {
+      if (explosionTween) { explosionTween.kill(); explosionTween = null }
+      material.uniforms.uExplosion.value = 0
       lerpPositions(positionsGrid, positionsSingularity, 0)
       bloom.strength = 0.8
       camera.position.z = 80

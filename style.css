@@ -210,36 +210,6 @@ body::after {
   box-shadow: 0 0 8px var(--cyan);
 }
 
-/* ─── HUD Panels ─────────────────────────────────────────── */
-.hud {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
-  transition: opacity 0.6s;
-}
-
-.hud.hidden { opacity: 0; }
-
-.hud-panel {
-  position: absolute;
-  background: rgba(10, 15, 28, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border);
-  padding: 0.75rem 1.25rem;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  line-height: 1.8;
-}
-
-.hud-tl { top: 6rem; left: 2.5rem; }
-.hud-br { bottom: 3rem; right: 5rem; text-align: right; }
-
-.hud-line { color: var(--muted); }
-.hud-line.accent { color: var(--cyan); }
-.hud-count { color: var(--cyan); }
 
 /* ─── Sections ───────────────────────────────────────────── */
 .section {
