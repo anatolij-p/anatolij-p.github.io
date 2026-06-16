@@ -1,95 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>1334 TECH</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1334 Tech — Reliable Web Systems for Connected Commerce</title>
+  <meta name="description" content="Senior Web Developer & Integration Specialist. eCommerce platforms, APIs, PIM workflows, and full-stack systems for international clients." />
+  <meta property="og:title" content="1334 Tech — Reliable Web Systems" />
+  <meta property="og:description" content="Senior Web Developer & Integration Specialist. eCommerce platforms, APIs, PIM workflows, and full-stack systems." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://anatolij-p.github.io" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
 
-    <meta name="Description" content="Homepage of Professional Web Developer" />
-    <meta
-      name="Keywords"
-      content="developer magento web-developer specialist integration frontend backend 1334 tech java python golang"
-    />
-    <meta name="Author" content="Anatolij Prihosko" />
+  <!-- Preloader -->
+  <div id="preloader">
+    <div id="preloader-lines"></div>
+    <div id="preloader-cursor">_</div>
+  </div>
 
-    <meta property="og:title" content="1334 TECH" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://1334.tech" />
-    <meta property="og:image" content="https://1334.tech/img/thumbnail.jpg" />
-    <meta
-      property="og:description"
-      content="1334 TECH - Anatolij Prihosko - Software Engineer"
-    />
+  <!-- Custom cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
-    <link
-      rel="stylesheet prefetch"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-    <link
-      rel="stylesheet prefetch"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    />
+  <!-- Grain overlay -->
+  <div class="grain"></div>
 
-    <link rel="stylesheet" href="css/style.min.css" />
-  </head>
+  <!-- WebGL canvas -->
+  <canvas id="webgl"></canvas>
 
-  <body>
-    <!-- LOADER -->
-    <div id="content"></div>
-    <div id="overlay"></div>
+  <!-- Fixed side nav -->
+  <nav class="sidenav" aria-label="Section navigation">
+    <a href="#hero" class="sidenav-item active" data-section="hero">
+      <span class="sidenav-dot"></span>
+      <span class="sidenav-label">01</span>
+    </a>
+    <a href="#stack" class="sidenav-item" data-section="stack">
+      <span class="sidenav-dot"></span>
+      <span class="sidenav-label">02</span>
+    </a>
+    <a href="#contact" class="sidenav-item" data-section="contact">
+      <span class="sidenav-dot"></span>
+      <span class="sidenav-label">03</span>
+    </a>
+  </nav>
 
-    <!-- CONTENT -->
-    <div id="main" style="display: none">
-      <header id="header">
-        <div class="vert-text">
-          <!-- CANVAS -->
-          <div id="particles"></div>
+  <!-- Top logo -->
+  <header class="top-bar">
+    <a href="#hero" class="logo">1334<span class="logo-dot">·</span>TECH</a>
+  </header>
 
-          <!-- LOGO -->
-          <div class="p-img">
-            <img src="img/1334_logo_white.png" />
-          </div>
-
-          <!-- TYPING -->
-          <h1 id="typer-size">
-            <span id="typed"></span>
-            <div id="typed-strings">
-              <p><span class="highlight">Welcome!</span></p>
-              <p>I’m Anatolij Prihosko</p>
-              <p>Experienced Web Developer</p>
-              <p>Focused on eCommerce</p>
-              <p>Integration Specialist</p>
-              <p>PIM Specialist</p>
-              <p>
-                Proficient in multiple programming languages, platforms, and
-                tools, with a strong track record of working with international
-                clients.
-              </p>
-              <p>Delivered dozens of projects.</p>
-              <p>Connect on LinkedIn</p>
-            </div>
-          </h1>
-
-          <!-- COMPANY NAME -->
-          <h3><strong>1334 TECH</strong></h3>
-
-          <!-- SOCIAL -->
-          <a
-            href="https://www.linkedin.com/in/anatolij-prihosko/"
-            class="scroll-down nav-link"
-            target="_blank"
-          >
-            <img class="linkedin-img" src="img/linkedin-w.png" alt="linkedin" />
-          </a>
-        </div>
-      </header>
+  <!-- HUD panels (hero only) -->
+  <div class="hud" id="hud">
+    <div class="hud-panel hud-tl">
+      <div class="hud-line">NODE-1334</div>
+      <div class="hud-line accent">STATUS: ONLINE</div>
     </div>
+    <div class="hud-panel hud-br">
+      <div class="hud-line">CONNECTIONS: <span class="hud-count">2,847</span></div>
+      <div class="hud-line muted">UPTIME: 99.97%</div>
+    </div>
+  </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <!-- Main content -->
+  <main>
 
-    <script src="js/index.min.js"></script>
-  </body>
+    <!-- Section 01: Hero -->
+    <section id="hero" class="section section-hero">
+      <div class="hero-content">
+        <p class="mono-label reveal-item">SYSTEMS <span class="accent">·</span> CONNECTED</p>
+        <h1 class="hero-h1">
+          <span class="reveal-word">RELIABLE</span>
+          <span class="reveal-word">WEB SYSTEMS</span>
+        </h1>
+        <p class="hero-body reveal-item">
+          Senior Web Developer &amp; Integration Specialist<br />
+          <span class="muted">Anatolij Prihosko</span>
+        </p>
+        <a href="#stack" class="cta-btn reveal-item">
+          <span class="cta-line"></span>
+          <span class="cta-text">Explore</span>
+          <span class="cta-arrow">&#8594;</span>
+        </a>
+      </div>
+      <div class="scroll-cue">
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- Section 02: Tech Stack -->
+    <section id="stack" class="section section-stack">
+      <div class="section-inner">
+        <p class="mono-label">02 <span class="muted">/</span> CAPABILITIES</p>
+        <h2 class="section-h2">WHAT I BUILD</h2>
+
+        <div class="cards-grid">
+          <div class="card" tabindex="0">
+            <div class="card-icon">&#128722;</div>
+            <div class="card-title">eCOMMERCE</div>
+            <div class="card-tags">Magento &middot; Shopify &middot; WooCommerce</div>
+          </div>
+          <div class="card" tabindex="0">
+            <div class="card-icon">&#128268;</div>
+            <div class="card-title">INTEGRATION</div>
+            <div class="card-tags">REST &middot; GraphQL &middot; Webhooks &middot; Automation</div>
+          </div>
+          <div class="card" tabindex="0">
+            <div class="card-icon">&#128230;</div>
+            <div class="card-title">PIM</div>
+            <div class="card-tags">Enrichment &middot; Pipelines &middot; Channel sync</div>
+          </div>
+          <div class="card" tabindex="0">
+            <div class="card-icon">&#9889;</div>
+            <div class="card-title">FULL-STACK</div>
+            <div class="card-tags">PHP &middot; Laravel &middot; JS/TS &middot; React &middot; Next.js &middot; Node</div>
+          </div>
+        </div>
+
+        <div class="tech-strip">
+          <span class="tech-item">PHP</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">Laravel</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">JavaScript</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">TypeScript</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">React</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">Next.js</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">Node.js</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">Magento</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">Shopify</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">MySQL</span>
+          <span class="tech-sep">·</span>
+          <span class="tech-item">Docker</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: Contact -->
+    <section id="contact" class="section section-contact">
+      <div class="section-inner contact-inner">
+        <p class="mono-label">03 <span class="muted">/</span> CONNECT</p>
+        <h2 class="contact-h2">
+          <span>LET'S BUILD</span>
+          <span>SOMETHING.</span>
+        </h2>
+        <a
+          href="https://www.linkedin.com/in/anatolij-prihosko/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-cta"
+        >
+          <span>Connect on LinkedIn</span>
+          <span class="cta-arrow">&#8594;</span>
+        </a>
+        <footer class="site-footer">
+          1334 TECH &nbsp;&middot;&nbsp; ANATOLIJ PRIHOSKO &nbsp;&middot;&nbsp; 2026
+        </footer>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/main.js"></script>
+</body>
 </html>
