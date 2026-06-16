@@ -161,7 +161,20 @@ body::after {
   color: var(--text);
   text-decoration: none;
   transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+
+.logo-mark {
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.82;
+  transition: opacity 0.2s;
+}
+
+.logo:hover .logo-mark { opacity: 1; }
 
 .logo:hover { color: var(--cyan); }
 
