@@ -12,6 +12,9 @@ v[0-9]*.png
 final-*.png
 hero-*.png
 
+# Vite cache
+.vite/
+
 # Tool artefacts
 .playwright-mcp/
 .superpowers/
