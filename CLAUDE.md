@@ -41,6 +41,10 @@ All design tokens in `:root` at the top of `style.css`. Key ones: `--cyan #00E5F
 
 `gh-pages` npm package pushes `dist/` to the `gh-pages` branch. The GitHub repo Settings → Pages must point to that branch (one-time manual step). `vite.config.js` has `base: '/'` — correct for the user page (`anatolij-p.github.io`), do NOT change to a sub-path.
 
+`public/CNAME` contains the custom domain (`1334.tech`) — Vite copies it into `dist/` automatically so it survives every deploy. Do not remove it.
+
+`img/1334_logo.png` is the master logo asset. The nav mark and favicon are both derived from it via CSS filter (`brightness(0) invert(1)`) and ImageMagick respectively — edit that one file to update all uses.
+
 ### Mobile / accessibility
 
 Canvas and custom cursor are disabled on `< 768px` — a CSS gradient background replaces the WebGL scene. `prefers-reduced-motion` disables all animation and makes content immediately visible.
