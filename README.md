@@ -1,6 +1,6 @@
 # 1334 Tech
 
-Personal landing page for Anatolij Prihosko / 1334 Tech. Cinematic, immersive design built for high visual impact — Awwwards / FWA aesthetic.
+Personal landing page for Anatolij Prihosko / 1334 Tech.
 
 Live: [anatolij-p.github.io](https://anatolij-p.github.io)
 
@@ -14,11 +14,11 @@ Live: [anatolij-p.github.io](https://anatolij-p.github.io)
 
 ## Sections
 
-| Section | Three.js state | Description |
-|---|---|---|
-| `#hero` | Organic spherical scatter | Intro — name, role, CTA |
-| `#stack` | Isometric 3D grid | Tech stack cards with marquee strip |
-| `#contact` | Dense orb (x=+55) | Contact links + explosion animation on enter |
+| Section    | Three.js state            | Description                                  |
+| ---------- | ------------------------- | -------------------------------------------- |
+| `#hero`    | Organic spherical scatter | Intro — name, role, CTA                      |
+| `#stack`   | Isometric 3D grid         | Tech stack cards with marquee strip          |
+| `#contact` | Dense orb (x=+55)         | Contact links + explosion animation on enter |
 
 ## Dev
 

@@ -121,39 +121,114 @@ function initScroll() {
   return lenis
 }
 
-// ─── Reveal Animations ────────────────────────────────────
-function initReveal() {
-  const revealWords = document.querySelectorAll('.reveal-word')
-  const revealItems = document.querySelectorAll('.mono-label, .hero-body, .cta-btn')
+// ─── Reduced-motion fallback: just set final state ─────────
+function revealAllImmediately() {
+  document.querySelectorAll(
+    '.reveal-word, .mono-label, .hero-body, .cta-btn, .card, .section-h2, .contact-h2, .contact-h2 span'
+  ).forEach(el => {
+    el.classList.add('visible')
+    el.style.opacity = '1'
+    el.style.transform = 'none'
+    el.style.clipPath = 'none'
+  })
+  const canvas = document.getElementById('webgl')
+  if (canvas) canvas.style.opacity = '1'
+}
 
-  setTimeout(() => {
-    revealWords.forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), i * 120)
-    })
-    revealItems.forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), 200 + i * 100)
-    })
-  }, 200)
+// ─── Initial cinematic load reveal ─────────────────────────
+function initLoadReveal(three) {
+  // 1. Canvas fade-in + bloom flash
+  if (three && three.canvas) {
+    gsap.to(three.canvas, { opacity: 1, duration: 1.4, ease: 'power2.out' })
+  }
+  if (three && three.bloom) {
+    three.bloom.strength = 2.0
+    gsap.to(three.bloom, { strength: 1.0, duration: 1.2, ease: 'power3.out' })
+  }
 
-  // card reveal on scroll
-  const cards = document.querySelectorAll('.card')
-  const cardObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const idx = [...cards].indexOf(entry.target)
-        setTimeout(() => entry.target.classList.add('visible'), idx * 100)
-        cardObserver.unobserve(entry.target)
-      }
-    })
-  }, { threshold: 0.15 })
-  cards.forEach(c => cardObserver.observe(c))
+  // 2. Orchestrated hero text sequence
+  const monoLabel = document.querySelector('#hero .mono-label')
+  const words = document.querySelectorAll('#hero .reveal-word')
+  const heroBody = document.querySelector('#hero .hero-body')
+  const cta = document.querySelector('#hero .cta-btn')
+  const scrollCue = document.querySelector('.scroll-cue')
 
-  // mono label reveal
-  document.querySelectorAll('#stack .mono-label, #contact .mono-label').forEach(el => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { el.classList.add('visible'); obs.unobserve(el) } })
-    }, { threshold: 0.5 })
-    obs.observe(el)
+  if (scrollCue) gsap.set(scrollCue, { opacity: 0, y: 12 })
+
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 })
+
+  tl.fromTo(monoLabel,
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.6 }, 0.1)
+
+  tl.fromTo(words,
+    { clipPath: 'inset(0 100% 0 0)', y: 24 },
+    { clipPath: 'inset(0 0% 0 0)', y: 0, duration: 0.9, stagger: 0.15, ease: 'expo.out' }, 0.25)
+
+  tl.fromTo(heroBody,
+    { opacity: 0, y: 18 },
+    { opacity: 1, y: 0, duration: 0.7 }, '-=0.45')
+
+  tl.fromTo(cta,
+    { opacity: 0, y: 16, scale: 0.96 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.6,
+      onStart: () => { if (cta) cta.classList.add('cta-glow-pulse') },
+      onComplete: () => { if (cta) cta.classList.remove('cta-glow-pulse') } }, '-=0.25')
+
+  if (scrollCue) {
+    tl.to(scrollCue, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2')
+  }
+}
+
+// ─── Section scroll transitions (S2 + S3) ──────────────────
+function initSectionReveals() {
+  // S2 — #stack
+  const stackLabel = document.querySelector('#stack .mono-label')
+  const stackH2 = document.querySelector('#stack .section-h2')
+  const cards = gsap.utils.toArray('#stack .card')
+
+  gsap.set(stackLabel, { opacity: 0, x: -30 })
+  gsap.set(stackH2, { clipPath: 'inset(0 100% 0 0)' })
+  gsap.set(cards, { opacity: 0, y: 50, scale: 0.95 })
+
+  ScrollTrigger.create({
+    trigger: '#stack',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      tl.to(stackLabel, { opacity: 1, x: 0, duration: 0.6 }, 0)
+      tl.to(stackH2, { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'expo.out' }, 0.1)
+      tl.to(cards, {
+        opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.12,
+        clearProps: 'transform,scale',
+      }, 0.35)
+    },
+  })
+
+  // S3 — #contact
+  const contactLabel = document.querySelector('#contact .mono-label')
+  const contactLines = gsap.utils.toArray('#contact .contact-h2 span')
+  const contactCta = document.querySelector('#contact .contact-cta')
+
+  gsap.set(contactLabel, { opacity: 0, x: -30 })
+  gsap.set(contactLines, { opacity: 0, y: 40 })
+  gsap.set(contactCta, { opacity: 0, y: 30 })
+
+  ScrollTrigger.create({
+    trigger: '#contact',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      tl.to(contactLabel, { opacity: 1, x: 0, duration: 0.6 }, 0)
+      tl.to(contactLines, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, 0.1)
+      tl.to(contactCta, {
+        opacity: 1, y: 0, duration: 0.6,
+        onStart: () => { if (contactCta) contactCta.classList.add('cta-glow-pulse') },
+        onComplete: () => { if (contactCta) contactCta.classList.remove('cta-glow-pulse') },
+      }, 0.35)
+    },
   })
 }
 
@@ -420,6 +495,8 @@ function initThree() {
   })
 
   let explosionTween = null
+  let rotationTween = null
+  let inContact = false
 
   ScrollTrigger.create({
     trigger: '#contact',
@@ -432,6 +509,10 @@ function initThree() {
       camera.position.z = 80 - t * 15
     },
     onEnter: () => {
+      // freeze rotation so orb stays on the right (x=+55)
+      inContact = true
+      rotationTween = gsap.to(particles.rotation, { y: 0, x: 0, duration: 1.2, ease: 'power2.out' })
+
       // start pulsing explosion once orb is formed
       if (!explosionTween) {
         explosionTween = gsap.to(material.uniforms.uExplosion, {
@@ -447,6 +528,8 @@ function initThree() {
       }
     },
     onLeaveBack: () => {
+      inContact = false
+      if (rotationTween) { rotationTween.kill(); rotationTween = null }
       if (explosionTween) { explosionTween.kill(); explosionTween = null }
       material.uniforms.uExplosion.value = 0
       lerpPositions(positionsGrid, positionsSingularity, 0)
@@ -476,9 +559,11 @@ function initThree() {
     const t = timestamp * 0.001
     material.uniforms.uTime.value = t
 
-    // slow orbital + mouse parallax
-    particles.rotation.y = t * 0.03 + mouseX * 0.08
-    particles.rotation.x = mouseY * 0.05
+    // slow orbital + mouse parallax (frozen in S3 so orb stays on the right)
+    if (!inContact) {
+      particles.rotation.y = t * 0.03 + mouseX * 0.08
+      particles.rotation.x = mouseY * 0.05
+    }
     lines.rotation.y = particles.rotation.y
     lines.rotation.x = particles.rotation.x
 
@@ -502,22 +587,29 @@ function initThree() {
     e.preventDefault()
     canvas.style.display = 'none'
   })
+
+  return { bloom, material, canvas }
 }
 
 // ─── Boot ─────────────────────────────────────────────────
+document.getElementById('footer-year').textContent = new Date().getFullYear()
+
 async function boot() {
-  if (!reducedMotion) {
-    await runPreloader()
-  } else {
+  if (reducedMotion) {
     document.getElementById('preloader').classList.add('hidden')
+    initCursor()
+    initScroll()
+    revealAllImmediately()
+    return
   }
+
+  await runPreloader()
+
   initCursor()
   initScroll()
-  initReveal()
-  initThree()
-
-  // hero mono-label reveal
-  document.querySelector('#hero .mono-label').classList.add('visible')
+  const three = initThree()
+  initLoadReveal(three)
+  initSectionReveals()
 }
 
 boot()
